@@ -2,6 +2,9 @@ import dns from "dns";
 dns.setDefaultResultOrder("ipv4first");
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import { createServer } from "node:http";
 import { fileURLToPath } from 'node:url';
@@ -29,7 +32,7 @@ const start = async () => {
     res.sendFile(join(__dirname, 'index.html'));
   });
 
-  const connectionDb = await mongoose.connect("mongodb+srv://dhruvpanchal1345_db_user:xdM2SBvc5Vx4EzmW@cluster0.uigq8js.mongodb.net/?appName=Cluster0");
+  const connectionDb = await mongoose.connect(process.env.MONGO_URI);
   console.log(`MONGO Connected DB HOST: ${connectionDb.connection.host}`);
 
   server.listen(app.get("port"), () => {
